@@ -91,40 +91,44 @@ a = (int*)malloc(n*sizeof(int));
 a[0]=rand()%100;
 for(i=1;i<n;i++)
 a[i]=a[i-1]+rand()%100;
+fprintf(fpa,"\nBest Case Array :");
 for(i=0;i<n;i++)
-fprintf(fpa,"%d ",a[i]);
-fprintf(fpa,"\n");
+fprintf(fpa," %d",a[i]);
 count=0;
 mergesort(a,n);
 fprintf(fp,"%d\t%d\t",n,count);
+fprintf(fpa,"\nBest Case Sorted Array :");
 for(i=0;i<n;i++)
 fprintf(fpa,"%d ",a[i]);
-fprintf(fpa,"\n");
 
 //Average Case
 for(i=0;i<n;i++)
 a[i]=rand()%100;
 count=0;
+fprintf(fpa,"\nAverage Case Array :");
 for(i=0;i<n;i++)
 fprintf(fpa,"%d ",a[i]);
-fprintf(fpa,"\n");
 mergesort(a,n);
 fprintf(fp,"%d\t",count);
+fprintf(fpa,"\nAverage Case Sorted Array :");
 for(i=0;i<n;i++)
 fprintf(fpa,"%d ",a[i]);
-fprintf(fpa,"\n");
 
 //Worst Case
+a[0]=rand()%100;
+for(i=1;i<n;i++)
+a[i]=a[i-1]+rand()%100;
 genWorstCase(a,0,n-1);
 count=0;
+fprintf(fpa,"\nWorst Case Array :");
 for(i=0;i<n;i++)
 fprintf(fpa,"%d ",a[i]);
 fprintf(fpa,"\n");
 mergesort(a,n);
 fprintf(fp,"%d\n",count);
+fprintf(fpa,"\nWorst Case Sorted Array :");
 for(i=0;i<n;i++)
 fprintf(fpa,"%d ",a[i]);
-fprintf(fpa,"\n");
 }
 fclose(fp);
 system("gedit MSortCount.txt Array.txt");
