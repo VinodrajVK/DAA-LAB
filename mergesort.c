@@ -5,7 +5,7 @@
 #define y 100
 #define inc 10
 int count;
-int join(int arr[],int left[],int right[],int l,int m,int r)
+void join(int arr[],int left[],int right[],int l,int m,int r)
 {
 int i,j;
 for(i=0;i<=m-l;i++)
@@ -14,7 +14,7 @@ for(j=0;j<r-m;j++)
 arr[i+j]=right[j];
 }
 
-int split(int arr[],int left[],int right[],int l,int m,int r)
+void split(int arr[],int left[],int right[],int l,int m,int r)
 {
 for(int i=0;i<=m-l;i++)
 left[i]=arr[i*2];
@@ -22,7 +22,7 @@ for(int j=0;j<r-m;j++)
 right[j]=arr[j*2+1];
 }
 
-int genWorstCase(int arr[],int l,int r)
+void genWorstCase(int arr[],int l,int r)
 {
 if(l<r)
 {
