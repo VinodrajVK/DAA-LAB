@@ -1,21 +1,26 @@
-#include <stdlib.h>
-#include <time.h>
-void main()
-{
-int i,j,a[10];
-srand(time(0));
-a[0]=rand()%10;
-
-a[10/2]=rand()%10;
-for(i=0,j=10/2;j<10-2;i+=2,j+=2)
-{
-a[i+1]=a[0]+rand()%100;
-a[i+2]=a[i+1]-rand()%10;
-a[j+1]=a[10/2]+rand()%100;
-a[j+2]=a[j+1]-rand()%10;
+int join(int arr[],int left[],int right[],int l,int m,int r){
+    int i,j;
+    for(i=0;i<=m-l;i++)
+        arr[i]=left[i];
+    for(j=0;j<r-m;j++)
+        arr[i+j]=right[j];
 }
-a[10/2-1]=a[10/2-2]+rand()%10;
-a[10-1]=a[10-2]+rand()%10;
-for(i=0;i<10;i++)
-printf("%d\t",a[i]);
+
+int split(int arr[],int left[],int right[],int l,int m,int r){
+    for(int i=0;i<=m-l;i++)
+        left[i]=arr[i*2];
+    for(int j=0;j<r-m;j++)
+        right[j]=arr[j*2+1];
+}
+
+int genWorstCase(int arr[],int l,int r){
+    if(l<r){
+        int m=l+(r-l)/2;
+        int left[m-l+1];
+        int right[r-m];
+        split(arr,left,right,l,m,r);
+        genWorstCase(left,l,m);
+        genWorstCase(right,m+1,r);
+        join(arr,left,right,l,m,r);
+    }
 }
