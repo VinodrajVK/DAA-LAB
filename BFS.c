@@ -1,53 +1,86 @@
 #include <stdio.h>
-int a[10][10],n,visit[10],acyclic=1,queue[10],f=0,r=-1;
+int i, n, j, count = 0, opc, visit[10], acyclic = 1, f = 0, r = -1;
+int a[10][10], traverse[10][10], queue[10];
 void bfs(int s)
 {
-for(int i=s;i<=n;i++)
-{
-if(a[s][i]&&visit[i])
-acyclic=0;
-if(a[s][i]&&!visit[i])
-{
-queue[++r]=i;
-printf("%d--%d\n",s,i);
-}
-if(r>=f)
-{
-visit[queue[r]]=1;
-bfs(queue[f++]);
-}
-}
+    int k = 1;
+    count++;
+    queue[++r] = s;
+    while (f <= r)
+    {
+        s = queue[f++];
+        visit[s] = 1;
+        traverse[count][k++] = s;
+        for (i = 1; i <= n; i++)
+        {
+            if (a[s][i] && visit[i] == -1)
+            {
+                opc++;
+                queue[++r] = i;
+                visit[i] = 0;
+            }
+            if (a[s][i] && (visit[i] == 0 || visit[i] == 1))
+            {
+                opc++;
+                acyclic = 0;
+            }
+        }
+    }
 }
 void connectandcyclic()
 {
-int f=1;
-for(int i=1;i<=n;i++)
-if(!visit[i])
-{
-f=0;
-bfs(i);
-}
-if(f)
-printf("Graph is Connected\n");
-else
-printf("Graph is Disconnected\n");
-if(acyclic)
-printf("Graph is Acyclic\n");
-else
-printf("Graph is Cyclic\n");
+    int f = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        if (visit[i] == 1)
+            visit[i] = 2;
+        if (visit[i] == -1)
+        {
+            f = 0;
+            bfs(i);
+        }
+    }
+    if (f)
+    {
+        printf("Graph is Connected\n");
+        for (j = 1; j <= n; j++)
+            printf("%d ", traverse[1][j]);
+    }
+    else
+    {
+        printf("Graph is Disconnected\n");
+        printf("Number of Connected Components : %d\n", count);
+        printf("They are\n");
+        for (i = 1; i <= count; i++)
+        {
+            printf("Component-%d : ", i);
+            for (j = 1; j < n; j++)
+                if (traverse[i][j] != 0)
+                    printf("%d ", traverse[i][j]);
+            printf("\n");
+        }
+    }
+    if (acyclic)
+        printf("\nGraph is Acyclic\n");
+    else
+        printf("\nGraph is Cyclic\n");
 }
 
-void main()
+int main()
 {
-int i,j,start=1;
-printf("Enter the number of nodes : ");
-scanf("%d",&n);
-for(i=1;i<=n;i++)
-visit[i]=0;
-printf("Enter the adjacency matrix\n");
-for(i=1;i<=n;i++)
-for(j=1;j<=n;j++)
-scanf("%d",&a[i][j]);
-bfs(start);
-connectandcyclic();
+    int start;
+    printf("Enter the number of nodes : ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
+        visit[i] = -1;
+    printf("Enter the adjacency matrix\n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            scanf("%d", &a[i][j]);
+    printf("Enter the Starting Vertex : ");
+    scanf("%d", &start);
+    bfs(start);
+    connectandcyclic();
+    printf("Operation Count : %d\n", opc);
+    return 0;
 }
