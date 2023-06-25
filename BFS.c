@@ -11,15 +11,16 @@ void bfs(int s)
         s = queue[f++];
         visit[s] = 1;
         traverse[count][k++] = s;
-        for (i = 1; i <= n; i++)
+        for (i = s; i <= n; i++)
         {
+            opc++;
             if (a[s][i] && visit[i] == -1)
             {
                 opc++;
                 queue[++r] = i;
                 visit[i] = 0;
             }
-            if (a[s][i] && (visit[i] == 0 || visit[i] == 1))
+            if (a[s][i] && (visit[i] == 1))
             {
                 opc++;
                 acyclic = 0;
