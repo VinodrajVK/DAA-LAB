@@ -19,6 +19,7 @@ void heapify(int H[], int n)
             j = 2 * k;
             if (j < n)
             {
+
                 if (H[j] < H[j + 1])
                 {
                     countc++;
@@ -27,10 +28,12 @@ void heapify(int H[], int n)
             }
             if (v >= H[j])
             {
+                // countc++;
                 heap = 1;
             }
             else
             {
+                // countc++;
                 H[k] = H[j];
                 k = j;
             }
@@ -46,12 +49,12 @@ void swap(int *a, int *b)
 }
 void heapsort(int H[], int n)
 {
-    if (n > 1)
+    for (int i = n; i >= 2; i--)
     {
         count++;
-        heapify(H, n);
         swap((H + 1), (H + n));
-        heapsort(H, n - 1);
+        // heapsort(H, n - 1);
+        heapify(H, n - 1);
     }
 }
 int main()
@@ -74,12 +77,13 @@ int main()
         }
         count = 0;
         countc = 0;
+        heapify(H, n);
         heapsort(H, n);
         fprintf(fp, "\nSorted Array : ");
         for (i = 1; i <= n; i++)
             fprintf(fp, " %d", H[i]);
-        printf("%d\t%d\n", n, (2 * countc));
-        fprintf(fpc, "%d\t%d\n", n, (2 * countc));
+        printf("%d\t%d\n", n, (countc));
+        fprintf(fpc, "%d\t%d\n", n, (countc));
     }
     fclose(fp);
     fclose(fpc);
