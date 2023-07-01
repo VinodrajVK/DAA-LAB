@@ -15,10 +15,10 @@ void heapify(int a[], int n, int i)
     int right = 2 * i + 1;
 
     count++;
-    if (left < n && a[left] > a[largest])
+    if (left <= n && a[left] > a[largest])
         largest = left;
 
-    if (right < n && a[right] > a[largest])
+    if (right <= n && a[right] > a[largest])
         largest = right;
 
     if (largest != i)
@@ -33,11 +33,10 @@ void heapsort(int a[], int n)
     int i;
     for (i = n / 2; i >= 1; i--)
         heapify(a, n, i);
-    heapify(a, n, 1);
-    for (i = n - 1; i >= 2; i--)
+    for (i = n; i >1; i--)
     {
         swap(a + 1, a + i);
-        heapify(a, i, 1);
+        heapify(a, i-1, 1);
     }
 }
 
