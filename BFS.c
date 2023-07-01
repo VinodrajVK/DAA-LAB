@@ -14,16 +14,16 @@ void bfs(int s)
         for (i = s; i <= n; i++)
         {
             opc++;
+            if (a[s][i] && (visit[i] == 1))
+            {
+                opc++;
+                acyclic = 0;
+            }
             if (a[s][i] && visit[i] == -1)
             {
                 opc++;
                 queue[++r] = i;
                 visit[i] = 0;
-            }
-            if (a[s][i] && (visit[i] == 1))
-            {
-                opc++;
-                acyclic = 0;
             }
         }
     }
