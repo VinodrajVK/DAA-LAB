@@ -17,16 +17,14 @@ void warshall(int a[n][n])
             for (j = 1; j <= n; j++)
             {
                 count++;
-                q[i][j] = (p[i][j] || (p[i][k] && p[k][j]));
+                p[i][j] = (p[i][j] || (p[i][k] && p[k][j]));
             }
-
-        copyarr(p, q);
     }
     printf("Transitive Closure\n");
     for (i = 1; i <= n; i++)
     {
         for (j = 1; j <= n; j++)
-            printf("%d ", q[i][j]);
+            printf("%d ", p[i][j]);
         printf("\n");
     }
     printf("Operation Count : %d\n", count);
