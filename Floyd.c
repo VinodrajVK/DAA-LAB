@@ -13,24 +13,22 @@ void copyarr(int c[n][n], int d[n][n])
 }
 void floyd(int a[n][n])
 {
-    int p[n][n], q[n][n];
-    copyarr(p, a);
+    int d[n][n];
+    copyarr(d, a);
     for (k = 1; k <= n; k++)
     {
         for (i = 1; i <= n; i++)
             for (j = 1; j <= n; j++)
             {
                 count++;
-                q[i][j] = minimum(p[i][j], (p[i][k] + p[k][j]));
+                d[i][j] = minimum(d[i][j], (d[i][k] + d[k][j]));
             }
-
-        copyarr(p, q);
     }
     printf("Distance Matrix\n");
     for (i = 1; i <= n; i++)
     {
         for (j = 1; j <= n; j++)
-            printf("%d ", q[i][j]);
+            printf("%d ", d[i][j]);
         printf("\n");
     }
 }
