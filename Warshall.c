@@ -9,22 +9,22 @@ void copyarr(int c[n][n], int d[n][n])
 }
 void warshall(int a[n][n])
 {
-    int p[n][n], q[n][n];
-    copyarr(p, a);
+    int r[n][n];
+    copyarr(r, a);
     for (k = 1; k <= n; k++)
     {
         for (i = 1; i <= n; i++)
             for (j = 1; j <= n; j++)
             {
                 count++;
-                p[i][j] = (p[i][j] || (p[i][k] && p[k][j]));
+                r[i][j] = (r[i][j] || (r[i][k] && r[k][j]));
             }
     }
     printf("Transitive Closure\n");
     for (i = 1; i <= n; i++)
     {
         for (j = 1; j <= n; j++)
-            printf("%d ", p[i][j]);
+            printf("%d ", r[i][j]);
         printf("\n");
     }
     printf("Operation Count : %d\n", count);
