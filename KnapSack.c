@@ -26,15 +26,9 @@ void composition(int f[][c + 1], int w[])
 void knapsack(int f[n + 1][c + 1], int w[], int v[])
 {
     for (i = 0; i <= n; i++)
-    {
         f[i][0] = 0;
-        count++;
-    }
     for (j = 1; j <= c; j++)
-    {
         f[0][j] = 0;
-        count++;
-    }
     for (i = 1; i <= n; i++)
         for (j = 1; j <= c; j++)
         {
