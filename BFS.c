@@ -1,36 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
-int i, n, j, count = 0, opc, visit[10], acyclic = 1, t = -1;
-int a[10][10], traverse[10][10], Stack[10];
-void dfs(int s)
+int i, n, j, count = 0, opc, visit[10], acyclic = 1, f = 0, r = -1;
+int a[10][10], traverse[10][10], queue[10];
+void bfs(int s)
 {
-    int k = 1, flag = 0;
+    int k = 1, p[n];
     count++;
-    Stack[++t] = s;
-    while (t != -1)
+    queue[++r] = s;
+    p[s] = 0;
+    visit[s] = 0;
+    while (f <= r)
     {
-        flag = 0;
-        s = Stack[t];
-        if (visit[s] != 1)
-            traverse[count][k++] = s;
+        s = queue[f++];
         visit[s] = 1;
+        traverse[count][k++] = s;
         for (i = 1; i <= n; i++)
         {
             opc++;
-            if (a[s][i] && visit[i] == 1)
+            if (a[s][i] && visit[i] == 1 && p[s] != i)
                 acyclic = 0;
-            if (a[s][i] && visit[i] == -1)
+            if (a[s][i] && visit[i] == 0)
             {
-                Stack[++t] = i;
-                visit[i] = 0;
-                flag = 1;
-                break;
+                queue[++r] = i;
+                p[i] = s;
             }
-        }
-        if (flag == 0)
-        {
-            visit[Stack[t]] = 2;
-            t--;
         }
     }
 }
@@ -39,11 +32,12 @@ void connectandcyclic()
     int flag = 1;
     for (int i = 1; i <= n; i++)
     {
-        if (visit[i] == -1)
+        if (visit[i] == 1)
+            visit[i] = 2;
+        if (visit[i] == 0)
         {
             flag = 0;
-            opc += (n - 1);
-            dfs(i);
+            bfs(i);
         }
     }
     if (flag)
@@ -77,7 +71,7 @@ int main()
     printf("Enter the number of nodes : ");
     scanf("%d", &n);
     for (i = 1; i <= n; i++)
-        visit[i] = -1;
+        visit[i] = 0;
     printf("Enter the adjacency matrix\n");
     for (i = 1; i <= n; i++)
         for (j = 1; j <= n; j++)
@@ -86,7 +80,7 @@ int main()
     scanf("%d", &start);
     opc = 0;
     count = 0;
-    dfs(start);
+    bfs(start);
     connectandcyclic();
     printf("Operation Count : %d\n", opc);
     return 0;
