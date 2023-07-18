@@ -4,10 +4,9 @@ int i, n, j, count = 0, opc, visit[10], acyclic = 1, t = -1;
 int a[10][10], traverse[10][10], Stack[10];
 void dfs(int s)
 {
-    int k = 1;
+    int k = 1, flag = 0;
     count++;
     Stack[++t] = s;
-    int flag = 0;
     while (t != -1)
     {
         flag = 0;
@@ -31,7 +30,7 @@ void dfs(int s)
         if (flag == 0)
         {
             visit[Stack[t]] = 2;
-            Stack[t--];
+            t--;
         }
     }
 }
@@ -43,6 +42,7 @@ void connectandcyclic()
         if (visit[i] == -1)
         {
             flag = 0;
+            opc += (n - 1);
             dfs(i);
         }
     }
