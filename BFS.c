@@ -19,9 +19,10 @@ void bfs(int s)
             opc++;
             if (a[s][i] && visit[i] == 1 && p[s] != i)
                 acyclic = 0;
-            if (a[s][i] && visit[i] == 0)
+            if (a[s][i] && visit[i] == -1)
             {
                 queue[++r] = i;
+                visit[i] = 0;
                 p[i] = s;
             }
         }
@@ -71,7 +72,7 @@ int main()
     printf("Enter the number of nodes : ");
     scanf("%d", &n);
     for (i = 1; i <= n; i++)
-        visit[i] = 0;
+        visit[i] = -1;
     printf("Enter the adjacency matrix\n");
     for (i = 1; i <= n; i++)
         for (j = 1; j <= n; j++)
