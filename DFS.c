@@ -1,59 +1,93 @@
 #include <stdio.h>
 #include <stdlib.h>
-int a[10][10],n,visited[10],acyclic=1;
-
-void dfs(int v)
+int i, n, j, count = 0, opc, visit[10], acyclic = 1, t = -1;
+int a[10][10], traverse[10][10], Stack[10];
+void dfs(int s)
 {
-int i;
-visited[v]=1;
-for(i=v;i<=n;i++)
-{
-if(a[v][i]&&visited[i])
-{
-acyclic=0;
-printf("%d--%d\n",v,i);
+    int k = 1;
+    count++;
+    Stack[++t] = s;
+    int flag = 0;
+    while (t != -1)
+    {
+        flag = 0;
+        s = Stack[t];
+        if (visit[s] != 1)
+            traverse[count][k++] = s;
+        visit[s] = 1;
+        for (i = 1; i <= n; i++)
+        {
+            opc++;
+            if (a[s][i] && visit[i] == 1)
+                acyclic = 0;
+            if (a[s][i] && visit[i] == -1)
+            {
+                Stack[++t] = i;
+                visit[i] = 0;
+                flag = 1;
+                break;
+            }
+        }
+        if (flag == 0)
+        {
+            visit[Stack[t]] = 2;
+            Stack[t--];
+        }
+    }
 }
-if(a[v][i]&&!visited[i])
-{
-printf("%d--%d\n",v,i);
-dfs(i);
-}
-}
-}
-
 void connectandcyclic()
 {
-int i=1;
-while(i<=n)
-{
-if(!visited[i])
-break;
-i++;
+    int flag = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        if (visit[i] == -1)
+        {
+            flag = 0;
+            dfs(i);
+        }
+    }
+    if (flag)
+    {
+        printf("Graph is Connected\n");
+        for (j = 1; j <= n; j++)
+            printf("%d ", traverse[1][j]);
+    }
+    else
+    {
+        printf("Graph is Disconnected\n");
+        printf("Number of Connected Components : %d\n", count);
+        printf("They are\n");
+        for (i = 1; i <= count; i++)
+        {
+            printf("Component-%d : ", i);
+            for (j = 1; j <= n; j++)
+                if (traverse[i][j] != 0)
+                    printf("%d ", traverse[i][j]);
+            printf("\n");
+        }
+    }
+    if (acyclic)
+        printf("\nGraph is Acyclic\n");
+    else
+        printf("\nGraph is Cyclic\n");
 }
-if(i==n+1)
-printf("Graph is Connected\n");
-else
+int main()
 {
-printf("Graph is not Connected\n");
-dfs(i);
-}
-if(acyclic)
-printf("Graph is Acyclic\n");
-else
-printf("Graph is Cyclic\n");
-}
-
-void main()
-{
-int i,j,start=1;
-printf("Enter the number of nodes : ");
-scanf("%d",&n);
-for(i=1;i<=n;i++)
-visited[i]=0;
-printf("Enter the adjacency matrix\n");
-for(i=1;i<=n;i++)
-for(j=1;j<=n;j++)
-scanf("%d",&a[i][j]);
-dfs(start);
-connectandcyclic();
+    int start;
+    printf("Enter the number of nodes : ");
+    scanf("%d", &n);
+    for (i = 1; i <= n; i++)
+        visit[i] = -1;
+    printf("Enter the adjacency matrix\n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+            scanf("%d", &a[i][j]);
+    printf("Enter the Starting Vertex : ");
+    scanf("%d", &start);
+    opc = 0;
+    count = 0;
+    dfs(start);
+    connectandcyclic();
+    printf("Operation Count : %d\n", opc);
+    return 0;
 }
