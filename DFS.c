@@ -4,9 +4,11 @@ int i, n, j, count = 0, opc, visit[10], acyclic = 1, t = -1;
 int a[10][10], traverse[10][10], Stack[10];
 void dfs(int s)
 {
+    int p[n];
     int k = 1, flag = 0;
     count++;
     Stack[++t] = s;
+    p[s] = -1;
     while (t != -1)
     {
         flag = 0;
@@ -16,14 +18,14 @@ void dfs(int s)
         visit[s] = 1;
         for (i = 1; i <= n; i++)
         {
-            opc++;
-            if (a[s][i] && visit[i] == 1)
+            if (a[s][i] && visit[i] == 1 && i != p[s])
                 acyclic = 0;
             if (a[s][i] && visit[i] == -1)
             {
                 Stack[++t] = i;
                 visit[i] = 0;
                 flag = 1;
+                p[i] = s;
                 break;
             }
         }
@@ -42,7 +44,6 @@ void connectandcyclic()
         if (visit[i] == -1)
         {
             flag = 0;
-            opc += (n - 1);
             dfs(i);
         }
     }
@@ -78,14 +79,17 @@ int main()
     scanf("%d", &n);
     for (i = 1; i <= n; i++)
         visit[i] = -1;
+    opc = 0;
+    count = 0;
     printf("Enter the adjacency matrix\n");
     for (i = 1; i <= n; i++)
         for (j = 1; j <= n; j++)
+        {
+            opc++;
             scanf("%d", &a[i][j]);
+        }
     printf("Enter the Starting Vertex : ");
     scanf("%d", &start);
-    opc = 0;
-    count = 0;
     dfs(start);
     connectandcyclic();
     printf("Operation Count : %d\n", opc);
