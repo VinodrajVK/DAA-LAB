@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int cost[10][10], n, visited[10] = {0}, opc = 0;
-int distance[10], parent[10];
+int cost[10][10], n, min_cost = 0, min, a, b, visited[10] = {0}, edges = 0;
 
 void createGraph()
 {
@@ -20,56 +19,44 @@ void createGraph()
         }
     }
 }
-void Dijkstra(int start)
-{
-    int count, mindistance, nextnode, i, j;
-    for (i = 1; i <= n; i++)
-    {
-        distance[i] = cost[start][i];
-        parent[i] = start;
-        visited[i] = 0;
-    }
 
-    distance[start] = 0;
-    visited[start] = 1;
-    count = 0;
-
-    while (count < n - 1)
-    {
-        mindistance = 999;
-
-        for (i = 1; i <= n; i++)
-        {
-            opc++;
-            if (distance[i] < mindistance && !visited[i])
-            {
-                mindistance = distance[i];
-                nextnode = i;
-            }
-        }
-        visited[nextnode] = 1;
-        for (i = 1; i <= n; i++)
-            if (!visited[i])
-                if (mindistance + cost[nextnode][i] < distance[i])
-                {
-                    distance[i] = mindistance + cost[nextnode][i];
-                    parent[i] = nextnode;
-                }
-        count++;
-    }
-    for (i = 1; i <= n; i++)
-        if (i != start&&distance[i]<1000)
-        {
-            printf("%d to %d Distance : %d\n", start, i, distance[i]);
-        }
-}
 void main()
 {
-    int source;
+    int i, j, count = 0;
     createGraph();
-    printf("Enter the source : ");
-    scanf("%d", &source);
-    printf("Minimum Distance from Source(%d) to other Vertices\n", source);
-    Dijkstra(source);
-    printf("Operation Count : %d\n", opc);
+    printf("Minimum Cost Spanning Tree\n");
+    visited[1] = 1;
+    while (edges < n - 1)
+    {
+        min = 1000;
+        for (i = 1; i <= n; i++)
+        {
+            count++;
+            if (visited[i])
+            {
+                for (j = 1; j <= n; j++)
+                {
+                    if (cost[i][j] < min && !visited[j])
+                    {
+                        min = cost[i][j];
+                        a = i;
+                        b = j;
+                    }
+                }
+            }
+        }
+        if(min<1000)
+            printf("%d -> %d : Cost-%d\n", a, b, min);
+        else
+        {  
+            printf("The Graph is disconnected,Prim's Algorithm not applicable\n");
+            exit(1);
+        }
+        min_cost += min;
+        visited[b] = 1;
+        edges++;
+    }
+
+    printf("Minimum Cost: %d\n", min_cost);
+    printf("Operation Count : %d\n", count);
 }
