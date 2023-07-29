@@ -58,9 +58,9 @@ void Dijkstra(int start)
         count++;
     }
     for (i = 1; i <= n; i++)
-        if (i != start)
+        if (i != start&&distance[i]<1000)
         {
-            printf("%d to %d: %d\n", start, i, distance[i]);
+            printf("%d to %d Distance : %d\n", start, i, distance[i]);
         }
 }
 void main()
