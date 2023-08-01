@@ -1,60 +1,61 @@
 #include <stdio.h>
-int i, j, n, Queue[10], f = 0, r = -1, opc = 0;
-int indegree[10], inqueue[10], a[10][10];
-void toposort()
+#include <stdlib.h>
+int n, f = 0, r = -1, Q[10], a[10][10], indeg[10], inqueue[10], Q[10], opc = 0, order[10], ord = 1;
+void toposr()
 {
-    int source, num = n, flag = 0;
-    printf("Topological Sorting is : ");
+    int source, num = n, flag;
     while (num > 0)
     {
-        for (i = 1; i <= n; i++)
-            if (indegree[i] == 0 && inqueue[i] == 0)
+        flag = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            opc++;
+            if (indeg[i] == 0 && inqueue[i] == 0)
             {
+                Q[++r] = i;
                 inqueue[i] = 1;
-                Queue[++r] = i;
                 flag = 1;
             }
+        }
+        if (f <= r)
+            flag = 1;
         if (flag == 0)
         {
-            printf("Not Possible");
-            break;
+            printf("Not Possible\n");
+            exit(0);
         }
-        source = Queue[f++];
-        indegree[source] = -1;
-        printf("%d ", source);
+        source = Q[f++];
+        order[ord++] = source;
         num--;
-        for (i = 1; i <= n; i++)
-            if (a[source][i] == 1)
-                indegree[i]--;
+        indeg[source] = -1;
+        for (int i = 1; i <= n; i++)
+            if (a[source][i])
+                indeg[i]--;
     }
-    printf("\n");
 }
-void calindegree()
+void main()
 {
-    for (i = 1; i <= n; i++)
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+    printf("Enter the adjacency Matrix\n");
+    for (int i = 1; i <= n; i++)
     {
-        indegree[i] = 0;
+        indeg[i] = 0;
         inqueue[i] = 0;
     }
 
-    for (i = 1; i <= n; i++)
-        for (j = 1; j <= n; j++)
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= n; j++)
         {
-            opc++;
-            if (a[i][j])
-                indegree[j]++;
-        }
-}
-int main()
-{
-    printf("Enter the number of Nodes : ");
-    scanf("%d", &n);
-    printf("Enter the Adjacency Matrix :\n");
-    for (i = 1; i <= n; i++)
-        for (j = 1; j <= n; j++)
             scanf("%d", &a[i][j]);
-    calindegree();
-    toposort();
-    printf("Operation Count : %d\n", opc);
-    return 0;
+            if (a[i][j])
+                indeg[j]++;
+        }
+    }
+    printf("Topological Sorting : ");
+    toposr();
+    for (int i = 1; i < ord; i++)
+        printf("%d ", order[i]);
+    printf("\nOperation Count : %d\n", opc);
 }
