@@ -7,13 +7,13 @@ FILE *fc;
 void match(char *t, int n, char *p, int m)
 {
 int i,j,count=0;
-for(i=0;i<n-m;i++)
+for(i=0;i<=n-m;i++)
 {
 j=0;
 while(j<m)
 {
 count++;
-  if(t[i+j]!=p[j]))
+  if(t[i+j]!=p[j])
     break;
 j++;
 }
