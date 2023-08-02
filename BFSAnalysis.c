@@ -39,15 +39,19 @@ void connectandcyclic()
 int main()
 {
     FILE *fp = fopen("BFSCount.txt", "w");
-    for (n = 4; n <= 6; n++)
+    for (n = 4; n <= 8; n++)
     {
         opc = 0;
         for (i = 1; i <= n; i++)
             visit[i] = -1;
-        printf("Enter adjacency matrix for %d vertices\n", n);
         for (i = 1; i <= n; i++)
             for (j = 1; j <= n; j++)
-                scanf("%d", &a[i][j]);
+                {
+                    if(i==j)
+                        a[i][j]=0;
+                    else
+                        a[i][j]=1;
+                }
         bfs(1);
         connectandcyclic();
         fprintf(fp, "%d\t%d\n", n, opc);
