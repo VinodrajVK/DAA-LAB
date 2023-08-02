@@ -10,9 +10,11 @@ int i,j,count=0;
 for(i=0;i<n-m;i++)
 {
 j=0;
-while(j<m&&t[i+j]==p[j])
+while(j<m)
 {
 count++;
+  if(t[i+j]!=p[j]))
+    break;
 j++;
 }
 if(j==m)
