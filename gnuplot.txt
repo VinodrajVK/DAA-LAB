@@ -1,0 +1,9 @@
+load "command.txt" or system("gnuplot > load'command.txt'");
+
+set title 'linear'
+set xrange [10:990]
+set yrange [1:990]
+set xlabel 'input-size'
+set ylabel 'op count'
+set style data linespoints
+plot 'b.txt' title 'best case','w.txt' title 'worst case'
